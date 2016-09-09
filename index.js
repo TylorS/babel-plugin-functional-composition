@@ -16,11 +16,15 @@ export default function ({ types: t }) {
     ], t.stringLiteral(from))
   }
 
+  let _hasDirective = false
+
   const visitor = {
     Program: {
       /* import our function if not defined */
       exit (path, { opts }) {
-        const { name = 'pipe', as = 'pipe', from } = opts
+        if (!_hasDirective) return
+
+        const { name = 'pipe', as = 'pipe', from } = opts || {}
 
         if (!from) return
 
@@ -33,7 +37,9 @@ export default function ({ types: t }) {
     CallExpression: {
       /* transform multiple pipe calls into as few pipe calls as possible */
       exit (path, { opts }) {
-        const { as = 'pipe' } = opts
+        if (!hasDirective(path)) return
+
+        const { as = 'pipe' } = opts || {}
 
         if (isPipeCall(as, path.node)) {
           const [left, right] = path.node.arguments
@@ -50,7 +56,10 @@ export default function ({ types: t }) {
       /* transform >> and << into calls to pipe() */
       enter (path, { opts }) {
         if (!hasDirective(path)) return
-        const { as = 'pipe' } = opts
+
+        _hasDirective = true
+
+        const { as = 'pipe' } = opts || {}
 
         if (isPipe(path)) {
           const [left, right] = side(path)
