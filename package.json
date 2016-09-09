@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-functional-composition",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Functional Composition for JavaScript",
   "main": "lib/index.js",
   "scripts": {
