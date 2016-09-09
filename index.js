@@ -16,19 +16,18 @@ export default function ({ types: t }) {
     ], t.stringLiteral(from))
   }
 
-  let _hasDirective = false
+  let fileHasDirective = false
 
   const visitor = {
     Program: {
-      /* import our function if not defined */
-      exit (path, { opts }) {
-        if (!_hasDirective) return
+      enter (path, { opts }) {
+        fileHasDirective = false
+      },
 
+      exit (path, opts) {
         const { name = 'pipe', as = 'pipe', from } = opts || {}
 
-        if (!from) return
-
-        if (!path.scope.hasBinding(as)) {
+        if (fileHasDirective && from && !path.scope.hasBinding(as)) {
           path.unshiftContainer('body', importAs(name, as, from))
         }
       }
@@ -38,6 +37,8 @@ export default function ({ types: t }) {
       /* transform multiple pipe calls into as few pipe calls as possible */
       exit (path, { opts }) {
         if (!hasDirective(path)) return
+
+        fileHasDirective = true
 
         const { as = 'pipe' } = opts || {}
 
@@ -57,7 +58,7 @@ export default function ({ types: t }) {
       enter (path, { opts }) {
         if (!hasDirective(path)) return
 
-        _hasDirective = true
+        fileHasDirective = true
 
         const { as = 'pipe' } = opts || {}
 

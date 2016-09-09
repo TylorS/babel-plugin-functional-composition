@@ -5,7 +5,7 @@ const { transformFileSync } = require('babel-core')
 
 const functionalPlugin = require('./index').default
 
-const { code } = transformFileSync('testFile.js', {
+const { code } = transformFileSync('test/testFile.js', {
   presets: [ es2015 ],
   plugins: [ [functionalPlugin, {
     'name': 'pipe',
@@ -15,6 +15,7 @@ const { code } = transformFileSync('testFile.js', {
  ]
 })
 
+// basic test
 assert.strictEqual(code, `"use strict";
 "use fc";
 
@@ -31,6 +32,28 @@ var add3 = add(3);
 var add0 = add(0);
 
 var add0Then3 = (0, _ramda.pipe)(add0, add3);
+
+var x = add0Then3(1);`)
+
+// should not add import if no directive is added
+
+const { code: testCode } = transformFileSync('test/testFile2.js', {
+  presets: [ es2015 ],
+  plugins: [ functionalPlugin ]
+})
+
+assert.strictEqual(testCode, `"use strict";
+var add = function add(x) {
+  return function (y) {
+    return x + y;
+  };
+};
+
+var add3 = add(3);
+
+var add0 = add(0);
+
+var add0Then3 = pipe(add0, add3);
 
 var x = add0Then3(1);`)
 
