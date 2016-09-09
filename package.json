@@ -1,0 +1,49 @@
+{
+  "name": "babel-plugin-functional-composition",
+  "version": "0.0.0",
+  "description": "Functional Composition for JavaScript",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "buba index.js -o lib/index.js",
+    "test": "nb eslint && babel-node test.js",
+    "commit": "northbrook commit",
+    "release": "northbrook release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TylorS/babel-plugin-functional-composition.git"
+  },
+  "keywords": [
+    "babel",
+    "plugin",
+    "functional",
+    "composition",
+    "pipe",
+    "operator"
+  ],
+  "author": "Tylor Steinberger <tlsteinberger167@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TylorS/babel-plugin-functional-composition/issues"
+  },
+  "homepage": "https://github.com/TylorS/babel-plugin-functional-composition#readme",
+  "config": {
+    "ghooks": {
+      "commit-msg": "node ./node_modules/.bin/validate-commit-msg"
+    },
+    "validate-commit-msg": {
+      "types": "@northbrook/commit-types"
+    }
+  },
+  "devDependencies": {
+    "@northbrook/eslint": "^1.2.1",
+    "babel-cli": "^6.14.0",
+    "babel-core": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-es2015-loose": "^7.0.0",
+    "babel-preset-power-assert": "^1.0.0",
+    "buba": "^3.0.0",
+    "northbrook": "^3.1.0",
+    "power-assert": "^1.4.1"
+  }
+}
