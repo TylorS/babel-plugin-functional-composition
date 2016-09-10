@@ -1,3 +1,13 @@
+# v1.0.2 (2016-09-09)
+---
+
+
+## Bug Fixes
+
+- fix(babel-plugin-functional-composition): fix for adding imports [3b056356](https://github.com/TylorS/babel-plugin-functional-composition/commits/3b0563563bc43d4d78f3b0a8e7fbcc3fd923c76e)
+- fix(babel-plugin-functional-composition): use file instead of program [c6e5d566](https://github.com/TylorS/babel-plugin-functional-composition/commits/c6e5d566aa10daf22bb7e39aa2b25261d15bd813)
+
+
 # v1.0.1 (2016-09-09)
 ---
 
