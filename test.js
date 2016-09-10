@@ -16,33 +16,16 @@ const { code } = transformFileSync('test/testFile.js', {
 })
 
 // basic test
-assert.strictEqual(code, `"use strict";
-"use fc";
+assert.strictEqual(code, `'use strict';
+'use fc';
 
-var _ramda = require("ramda");
+exports.__esModule = true;
+exports.x = undefined;
 
-var add = function add(x) {
-  return function (y) {
-    return x + y;
-  };
-};
+var _import = require('./import');
 
-var add3 = add(3);
+(0, _import.test)();
 
-var add0 = add(0);
-
-var add0Then3 = (0, _ramda.pipe)(add0, add3);
-
-var x = add0Then3(1);`)
-
-// should not add import if no directive is added
-
-const { code: testCode } = transformFileSync('test/testFile2.js', {
-  presets: [ es2015 ],
-  plugins: [ functionalPlugin ]
-})
-
-assert.strictEqual(testCode, `"use strict";
 var add = function add(x) {
   return function (y) {
     return x + y;
@@ -55,6 +38,30 @@ var add0 = add(0);
 
 var add0Then3 = pipe(add0, add3);
 
-var x = add0Then3(1);`)
+var x = exports.x = add0Then3(1);`)
+
+// should not add import if no directive is added
+
+const { code: testCode } = transformFileSync('test/testFile2.js', {
+  presets: [ es2015 ],
+  plugins: [ functionalPlugin ]
+})
+
+assert.strictEqual(testCode, `"use strict";
+
+exports.__esModule = true;
+var add = function add(x) {
+  return function (y) {
+    return x + y;
+  };
+};
+
+var add3 = 3 >>> add;
+
+var add0 = 0 >>> add;
+
+var add0Then3 = add0 >> add3;
+
+var x = exports.x = add0Then3(1);`)
 
 console.log('Tests pass!')
