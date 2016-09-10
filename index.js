@@ -19,7 +19,7 @@ export default function ({ types: t }) {
   let fileHasDirective = false
 
   const visitor = {
-    Program: {
+    File: {
       enter (path, { opts }) {
         fileHasDirective = false
       },
