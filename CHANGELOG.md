@@ -1,3 +1,12 @@
+# v1.0.3 (2016-09-13)
+---
+
+
+## Bug Fixes
+
+- fix(babel-plugin-functional-composition): recursively check up if the directive is present [8dfa22f1](https://github.com/TylorS/babel-plugin-functional-composition/commits/8dfa22f1048a56122ccfa85c67bcd2435ce98d03)
+
+
 # v1.0.2 (2016-09-09)
 ---
 
