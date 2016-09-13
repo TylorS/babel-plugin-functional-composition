@@ -19,7 +19,7 @@ export default function ({ types: t }) {
   let fileHasDirective = false
 
   const visitor = {
-    File: {
+    Program: {
       enter (path, { opts }) {
         fileHasDirective = false
       },
@@ -100,9 +100,15 @@ export default function ({ types: t }) {
 function hasDirective (path) {
   let matched = false
 
-  path.findParent(({ node }) => {
-    node.directives && node.directives.some(({ value }) => {
+  if (!path || typeof path.findParent !== 'function') return matched
+
+  path.findParent((parent) => {
+    parent.node.directives && parent.node.directives.some(({ value }) => {
       matched = value.value === DIRECTIVE
+
+      if (!matched) {
+        return hasDirective(parent)
+      }
     })
   })
 
